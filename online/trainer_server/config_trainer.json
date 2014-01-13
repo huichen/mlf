@@ -1,0 +1,17 @@
+{
+  "Host" : "127.0.0.1",
+  "Port" : 8080,
+  "LoadModelPath" : "",
+  "SaveModelPath" : "model.mlf",
+  "ModelSavingEveryNInstances" : 10000,
+  "Options" : {
+    "NumLabels" : 2,
+    "BatchSize" : 1,
+    "NumInstancesForEvaluation" : 1000,
+    "Optimizer" : {
+      "LearningRate" : 1,
+      "RegularizationFactor" : 1,
+      "RegularizationScheme" : 2
+    }
+  }
+}
