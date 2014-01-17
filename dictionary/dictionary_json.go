@@ -6,13 +6,13 @@ import (
 
 // Dictionary结构体JSON串行化/反串行化临时存储结构体
 type DictionaryJSON struct {
-	Features map[string]int
+	Words map[string]int
 }
 
 // 对Dictionary结构体进行JSON串行化
 func (m *Dictionary) MarshalJSON() ([]byte, error) {
 	return json.Marshal(DictionaryJSON{
-		Features: m.nameToId,
+		Words: m.nameToId,
 	})
 }
 
@@ -24,7 +24,7 @@ func (m *Dictionary) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	m.nameToId = jsonData.Features
+	m.nameToId = jsonData.Words
 	m.idToName = make(map[int]string)
 	for k, v := range m.nameToId {
 		m.idToName[v] = k

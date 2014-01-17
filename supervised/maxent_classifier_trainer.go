@@ -34,9 +34,9 @@ func (trainer *MaxEntClassifierTrainer) Train(set data.Dataset) Model {
 	numLabels := set.GetOptions().NumLabels
 	var weights *util.Matrix
 	if set.GetOptions().FeatureIsSparse {
-		weights = util.NewSparseMatrix(numLabels)
+		weights = util.NewSparseMatrix(numLabels-1)
 	} else {
-		weights = util.NewMatrix(numLabels, featureDimension)
+		weights = util.NewMatrix(numLabels-1, featureDimension)
 	}
 
 	// 得到优化的特征权重向量

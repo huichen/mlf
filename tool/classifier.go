@@ -28,7 +28,7 @@ var (
 	characteristic_time = flag.Float64("characteristic_time", float64(0), "学习率特征时间")
 	batch_size          = flag.Int("batch_size", 0,
 		"梯度递降法的batch尺寸: 0为full batch, 1为stochastic, 其它值为mini batch")
-	delta = flag.Float64("delta", 1e-3,
+	delta = flag.Float64("delta", 1e-4,
 		"权重变化量和权重的比值(|dw|/|w|)小于此值时判定为收敛")
 	max_iter = flag.Int("max_iter", 0, "优化器最多迭代多少次")
 	folds    = flag.Int("folds", 0, "N-交叉评价，值为零时不交叉评价")
