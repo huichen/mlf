@@ -262,7 +262,7 @@ func (opt *lbfgsOptimizer) OptimizeWeights(
 		oldWeights.DeepCopy(weights)
 		weightsNorm := weights.Norm()
 		weightsDeltaNorm := weightsDelta.Norm()
-		log.Printf("#%d |w|=%1.3g |dw|/|w|=%1.3g lr=%1.3g", step, weightsNorm, weightsDeltaNorm/weightsNorm, learning_rate)
+		log.Printf("#%d |dw|/|w|=%f |w|=%f lr=%1.3g", step, weightsDeltaNorm/weightsNorm, weightsNorm, learning_rate)
 
 		// 判断是否溢出
 		if math.IsNaN(weightsNorm) {

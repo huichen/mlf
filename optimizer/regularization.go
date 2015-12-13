@@ -23,7 +23,7 @@ func ComputeRegularization(weights *util.Matrix, options OptimizerOptions) *util
 		// L-2正则化
 		for iLabel := 0; iLabel < weights.NumLabels(); iLabel++ {
 			for _, k := range weights.GetValues(iLabel).Keys() {
-				reg.Set(iLabel, k, options.RegularizationFactor*float64(2)*weights.Get(iLabel, k))
+				reg.Set(iLabel, k, options.RegularizationFactor*weights.Get(iLabel, k))
 			}
 		}
 	}
