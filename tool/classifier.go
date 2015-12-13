@@ -26,7 +26,7 @@ var (
 	reg_factor          = flag.Float64("reg_factor", float64(1), "正则化因子")
 	learning_rate       = flag.Float64("learning_rate", float64(1), "学习率")
 	characteristic_time = flag.Float64("characteristic_time", float64(0), "学习率特征时间")
-	batch_size          = flag.Int("batch_size", 0,
+	batch_size          = flag.Int("batch_size", 10,
 		"梯度递降法的batch尺寸: 0为full batch, 1为stochastic, 其它值为mini batch")
 	delta = flag.Float64("delta", 1e-4,
 		"权重变化量和权重的比值(|dw|/|w|)小于此值时判定为收敛")
@@ -72,14 +72,14 @@ func main() {
 	}
 
 	// 进行交叉评价
-	evaluators := eval.NewEvaluators([]eval.Evaluator{
-		&eval.PREvaluator{}, &eval.AccuracyEvaluator{}})
+	// evaluators := eval.NewEvaluators([]eval.Evaluator{&eval.PREvaluator{}, &eval.AccuracyEvaluator{}})
+	evaluators := eval.NewEvaluators([]eval.Evaluator{&eval.AccuracyEvaluator{}})
 	if *folds != 0 {
 		result := eval.CrossValidate(trainer, set, evaluators, *folds)
 		log.Print(*folds, "-folds 交叉评价：")
-		log.Printf("精度   =  %.2f %%", result.Metrics["precision"]*100)
-		log.Printf("召回率 =  %.2f %%", result.Metrics["recall"]*100)
-		log.Printf("F1     =  %.2f %%", result.Metrics["fscore"]*100)
+		// log.Printf("精度   =  %.2f %%", result.Metrics["precision"]*100)
+		// log.Printf("召回率 =  %.2f %%", result.Metrics["recall"]*100)
+		// log.Printf("F1     =  %.2f %%", result.Metrics["fscore"]*100)
 		log.Printf("准确度 =  %.2f %%", result.Metrics["accuracy"]*100)
 		return
 	}
@@ -96,9 +96,10 @@ func main() {
 		// 在测试集上评价模型并输出结果
 		result := evaluators.Evaluate(model, testSet)
 		log.Print("测试数据集评价：")
-		log.Printf("精度   =  %.2f %%", result.Metrics["precision"]*100)
-		log.Printf("召回率 =  %.2f %%", result.Metrics["recall"]*100)
-		log.Printf("F1     =  %.2f %%", result.Metrics["fscore"]*100)
+		// log.Printf("精度   =  %.2f %%", result.Metrics["precision"]*100)
+		// log.Printf("召回率 =  %.2f %%", result.Metrics["recall"]*100)
+		// log.Printf("F1     =  %.2f %%", result.Metrics["fscore"]*100)
 		log.Printf("准确度 =  %.2f %%", result.Metrics["accuracy"]*100)
+		log.Printf("error =  %.2f %%", 100.0-result.Metrics["accuracy"]*100)
 	}
 }

@@ -18,7 +18,7 @@ func (e *AccuracyEvaluator) Evaluate(m supervised.Model, set data.Dataset) (resu
 	for !iter.End() {
 		instance := iter.GetInstance()
 		out := m.Predict(instance)
-		if instance.Output.Label == out.Label {
+		if instance.Output.LabelString == out.LabelString {
 			correctPrediction++
 		}
 		totalPrediction++

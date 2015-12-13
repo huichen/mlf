@@ -52,9 +52,11 @@ func LoadLibSVMDataset(path string, usingSparseRepresentation bool) data.Dataset
 		}
 	}
 
-	if minFeature != 1 || maxFeature < 2 {
+	if minFeature == 0 || maxFeature < 2 {
 		log.Fatal("文件输入格式不合法")
 	}
+	log.Printf("feature 数目 %d", maxFeature)
+	log.Printf("label 数目 %d", len(labels))
 
 	set := data.NewInmemDataset()
 
