@@ -14,7 +14,7 @@ var (
 
 	// 机器学习参数
 	learning_rate = flag.Float64("learning_rate", 0.01, "学习率")
-	batch_size    = flag.Int("batch_size", 10,
+	batch_size    = flag.Int("batch_size", 100,
 		"梯度递降法的batch尺寸: 1为stochastic, 其它值为mini batch")
 	delta = flag.Float64("delta", 1e-4,
 		"权重变化量和权重的比值(|dw|/|w|)小于此值时判定为收敛")

@@ -8,9 +8,8 @@ import (
 )
 
 type RBMModel struct {
-	Weights      *util.Matrix
-	HiddenUnits  int
-	VisibleUnits int
+	Weights *util.Matrix
+	Options RBMOptions
 }
 
 func (rbm *RBM) Write(path string) {
@@ -18,9 +17,8 @@ func (rbm *RBM) Write(path string) {
 	defer rbm.lock.RUnlock()
 
 	model := RBMModel{
-		Weights:      rbm.lock.weights,
-		HiddenUnits:  rbm.lock.weights.NumLabels() - 1,
-		VisibleUnits: rbm.lock.weights.NumValues() - 1,
+		Weights: rbm.lock.weights,
+		Options: rbm.options,
 	}
 
 	response, errMarshal := json.MarshalIndent(model, "", "\t")
@@ -33,4 +31,32 @@ func (rbm *RBM) Write(path string) {
 		log.Fatal("无法写入", path, "文件")
 	}
 	f.Write(response)
+}
+
+func LoadRBM(path string) *RBM {
+	// 最大文件长度10M
+	data := make([]byte, 1024*1024*10)
+
+	f, err := os.Open(path)
+	defer f.Close()
+	if err != nil {
+		log.Fatal("无法打开", path, "文件")
+	}
+
+	count, errRead := f.Read(data)
+	if errRead != nil {
+		log.Fatal("无法读入", path, "文件")
+	}
+
+	m := new(RBMModel)
+	errUnmarshal := json.Unmarshal(data[:count], m)
+	if errUnmarshal != nil {
+		log.Fatal("无法解析", path, "文件，错误", errUnmarshal)
+	}
+
+	machine := &RBM{}
+	machine.lock.weights = m.Weights
+	machine.options = m.Options
+
+	return machine
 }
